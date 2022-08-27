@@ -10,7 +10,6 @@ def show_score():
     screen.blit(score_surf, score_rect)
 
 
-
 game_running = False
 score = 0
 screen = pygame.display.set_mode((1280, 760))
@@ -31,6 +30,7 @@ game_help = def_font.render('Press SPACE to get started!', False, (0, 0, 0))
 game_help_rect = game_help.get_rect(center=(640, 640))
 game_restart_help = def_font.render('Press SPACE to restart', False, (0, 0, 0))
 game_restart_help_rect = game_restart_help.get_rect(center=(640, 640))
+
 # Fruits
 apple_surf = pygame.image.load("img/apple.png").convert_alpha()
 grapes_surf = pygame.image.load("img/grapes.png").convert_alpha()
@@ -57,11 +57,13 @@ while True:
                 bomb_start = 0
                 melon_start = 0
                 grape_start = 0
+                score_increase = 0
                 random_bomb = randint(4,10)
                 random_grapes = randint(3,15)
-                random_melon = randint(35,50)
+                random_melon = randint(15,50)
     userInput = pygame.key.get_pressed()
     if game_running:
+
         if userInput[pygame.K_LEFT]:
             x -=25
         if userInput[pygame.K_RIGHT]:
@@ -71,8 +73,11 @@ while True:
         screen.blit(background_surf, (0, 0))
         basket_rect = basket_surf.get_rect(center=(x, 650))
         screen.blit(basket_surf, basket_rect)
+        score_amount = def_font.render(f'+{score_increase}',False, (0,0,0))
+        score_amount_rect = score_amount.get_rect(center = (80, 35))
+        screen.blit(score_amount, score_amount_rect)
 
-
+        
         #apple movement---------------------------
         screen.blit(apple_surf, apple_rect)
         apple_rect.y += 15
@@ -85,6 +90,7 @@ while True:
         if basket_rect.colliderect(apple_rect):
             apple_rect.y = 0
             score += 10
+            score_increase = 10
             apple_rect = apple_surf.get_rect(center=(randint(70, 1210), 0))
             bomb_start += 1
             grape_start += 1
@@ -100,6 +106,7 @@ while True:
             if basket_rect.colliderect(grapes_rect):
                 grapes_rect.y = 0
                 score += 50
+                score_increase = 50
                 grapes_rect = grapes_surf.get_rect(center=(randint(70, 1210), 0))
                 grape_start = 0
         
@@ -114,9 +121,9 @@ while True:
             if basket_rect.colliderect(melon_rect):
                 melon_rect.y = 0
                 score += 250
+                score_increase = 250
                 melon_rect = melon_surf.get_rect(center=(randint(70, 1210), 0))
                 melon_start = 0
-
         #bomb movement-------------------
         if bomb_start >= random_bomb:
             screen.blit(bomb_surf, bomb_rect)
