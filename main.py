@@ -77,7 +77,6 @@ while True:
         score_amount_rect = score_amount.get_rect(center = (80, 35))
         screen.blit(score_amount, score_amount_rect)
 
-        
         #apple movement---------------------------
         screen.blit(apple_surf, apple_rect)
         apple_rect.y += 15
